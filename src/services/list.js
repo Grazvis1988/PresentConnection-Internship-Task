@@ -12,7 +12,14 @@ const create = async newItem => {
   return response.data
 }
 
+const getItem = async (id) => {
+  const request = await axios.get(`${baseUrl}/${id}`)
+  return request.data
+}
+
+
 export default {
   getAll,
+  getItem,
   create
 }

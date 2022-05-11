@@ -8,37 +8,14 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
-import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import { visuallyHidden } from '@mui/utils';
 import { useNavigate } from "react-router-dom";
 import Grid from '@mui/material/Grid';
+import listService from '../services/list'
 
-function createData(
-  userId,
-  title,
-  body,
-  id
-){
-  return {
-    userId,
-    title,
-    body,
-    id
-  };
-}
-
-const rows = [
-  createData(1, 'qhadsf', 'Some kind of giberish', 1),
-  createData(2, 'bomb', 'pukšt', 2),
-  createData(1, 'plane', 'Flying high', 3),
-  createData(3, 'dangus', 'creator', 4),
-  createData(4, 'war', 'shit', 5),
-  createData(5, 'List', "list of arrays is a 2D array", 5),
-  createData(1, 'demilitarizacija', 'mhmm', 6)
-];
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -86,7 +63,7 @@ var headCells = [
     },
     {
         id: 'body',
-        numeric: true,
+        numeric: false,
         disablePadding: false,
         label: 'Body'
     }
@@ -134,8 +111,20 @@ const EnhancedTable = () => {
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [ rows, setRows ] = React.useState([]);
   const navigate = useNavigate();
 
+  React.useEffect(() => {
+    (async() => {
+      try {
+        const data = await listService.getAll()
+        console.log('Hey what the fuck is going on...')
+        setRows(data)
+      } catch(e) {
+        console.log(e.message)
+      }
+    })()
+  }, [page])
   const handleRequestSort = (
     event,
     property,
@@ -194,11 +183,11 @@ const EnhancedTable = () => {
                       hover
                       onClick={(event) => handleClick(event, row.id)}
                       tabIndex={-1}
-                      key={row.name}
+                      key={row.id}
                     >
-                      <TableCell align="right" sx={{ width: '10%' }}>{row.userId}</TableCell>
-                      <TableCell align="left">{row.title}</TableCell>
-                      <TableCell align="right">{row.body}</TableCell>
+                      <TableCell align="right" sx={{ width: '8%' }}>{row.userId}</TableCell>
+                      <TableCell align="left" sx={{ width: '20%' }}>{row.title}</TableCell>
+                      <TableCell align="left">{row.body}</TableCell>
                     </TableRow>
                   );
                 })}

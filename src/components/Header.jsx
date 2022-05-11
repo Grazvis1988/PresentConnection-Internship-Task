@@ -15,9 +15,8 @@ const ResponsiveAppBar = () => {
         <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
           <Box sx={{ felxGrow: 0 }}>
            <Tooltip title="Main site">
-             <Link href="https://www.presentconnection.eu/" underline='hover' target="_blank" rel='noopener' sx={{ 
-               p: 0,
-             }}>
+             <Link href="https://www.presentconnection.eu/" 
+             underline='hover' target="_blank" rel='noopener' sx={{ p: 0 }}>
              <img style={{ height: 45 }} src="/companyLogo.png" alt="Pressent Connection"/>
               </Link>
             </Tooltip>
@@ -31,8 +30,9 @@ const ResponsiveAppBar = () => {
             </Typography>
           </Box>
           <Box sx={{ flexGrow: 0 }}>
-           <Tooltip title="click me">
-              <Link href="https://www.boredpanda.com/grandma-tweets-myrna-tellingheusen/" underline='hover' target="_blank" rel='noopener' sx={{ p: 0 }}>
+           <Tooltip title="Github">
+             <Link href="https://github.com/Grazvis1988" 
+             underline='hover' target="_blank" rel='noopener' sx={{ p: 0 }}>
                 <Avatar alt="Grazvydas Untulis" src="/myLogo.png" />
               </Link>
             </Tooltip>
