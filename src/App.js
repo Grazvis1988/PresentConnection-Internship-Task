@@ -11,7 +11,7 @@ function App() {
       <Header />
         <Routes>
           <Route path="/" element={<ListTabel />}/>
-          <Route path="/:id" element={<ListItem />}/>
+          <Route path="/item/:id" element={<ListItem />}/>
         </Routes>
       <Footer />
     </div>
