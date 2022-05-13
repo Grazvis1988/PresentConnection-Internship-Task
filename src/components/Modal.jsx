@@ -19,11 +19,10 @@ const style = {
   p: 4,
 };
 
-const KeepMountedModal = ({ open, handleOpen, handleClose }) =>  {
+const KeepMountedModal = ({ open, handleOpen, handleClose, itemAdded, setItemAdded }) =>  {
 
-  const handleSubmit = async (values) => {
+const handleSubmit = async (values) => {
     const { userId, title, body } = values
-    console.log("auuuuuu", values)
     if (userId && title && body) {
       const item = {
         userId: Number(userId),
@@ -32,6 +31,7 @@ const KeepMountedModal = ({ open, handleOpen, handleClose }) =>  {
       }
       try {
         await itemService.create(item)
+        setItemAdded(!itemAdded)
         handleClose()
       } catch (error) {
         console.error(error.message)

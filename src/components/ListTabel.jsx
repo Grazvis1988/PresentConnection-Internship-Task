@@ -17,8 +17,9 @@ import Input from '@mui/material/Input'
 import Grid from '@mui/material/Grid';
 import listService from '../services/list'
 import Modal from './Modal'
+import { useDebounce } from 'use-debounce';
 
-
+/*
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
         return -1;
@@ -48,7 +49,7 @@ function stableSort(array, comparator) {
     });
     return stabilizedThis.map(function (el) { return el[0]; });
 }
-
+*/
 
 var headCells = [
     {
@@ -107,28 +108,42 @@ function EnhancedTableHead(props) {
   );
 }
 
-const EnhancedTable = () => {
+const EnhancedTable = ({ page, setPage }) => {
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('title');
-  const [page, setPage] = React.useState(0);
+  // const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [ rows, setRows ] = React.useState([]);
   const [ filter, setFilter ] = React.useState('')
   const [ openModal, setOpenModal ] = React.useState(false)
+  const [ rowsArraySize, setRowsArraySize ] = React.useState(null)
+  const [ newItemAddedBoolean, setNewItemAddedBoolean ] = React.useState(false)
 
   const navigate = useNavigate();
+  const [ value ] = useDebounce(filter, 500)
 
   React.useEffect(() => {
     (async() => {
       try {
-        const data = await listService.getAll()
-        setRows(data)
+        const data = await listService.getAll({
+          filter,
+          page,
+          rowsPerPage,
+          orderBy,
+          order
+        })
+        setRows(data.rows)
+        setRowsArraySize(data.size)
       } catch(e) {
         console.log(e.message)
       }
     })()
-  }, [page])
+  }, [page, rowsPerPage, order, orderBy, value, newItemAddedBoolean])
+
+  React.useEffect(() => {
+    setPage(0)
+  }, [filter])
 
   const handleModalOpen = () => {
     setOpenModal(true)
@@ -163,17 +178,19 @@ const EnhancedTable = () => {
   const handleChangeDense = (event) => {
     setDense(event.target.checked);
   };
-
+  /*
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    */
 
   return (
     <Grid container justifyContent="center" sx={{ my: 2 }}>
     <Box sx={{ width: '83%' }}>
       <Box sx={{ mb: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
         <Modal open={openModal} handleOpen={handleModalOpen} 
-          handleClose={handleModalClose}
+          handleClose={handleModalClose} itemAdded={newItemAddedBoolean}
+          setItemAdded={setNewItemAddedBoolean}
         />
         <Input 
           placeholder="Filter" 
@@ -194,13 +211,7 @@ const EnhancedTable = () => {
               onRequestSort={handleRequestSort}
             />
             <TableBody>
-              {/* if you don't need to support IE11, you can replace the `stableSort` call with:
-              rows.slice().sort(getComparator(order, orderBy)) */}
-              {stableSort(rows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const labelId = `enhanced-table-${index}`;
-
+              {rows.map(row => {
                   return (
                     <TableRow
                       hover
@@ -214,21 +225,13 @@ const EnhancedTable = () => {
                     </TableRow>
                   );
                 })}
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: (dense ? 33 : 53) * emptyRows,
-                  }}
-                >
-                </TableRow>
-              )}
             </TableBody>
           </Table>
         </TableContainer>
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows.length}
+          count={rowsArraySize}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

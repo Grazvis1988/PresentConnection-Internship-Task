@@ -1,9 +1,12 @@
 const itemRouter = require('express').Router()
 const items = require('../data')
+const sorter = require('../utils/sorter')
 
-itemRouter.get('/', async (req, res) => {
+itemRouter.post('/', async (req, res) => {
   if(items){
-    res.json(items)
+    const { filter, page, rowsPerPage, orderBy, order } = req.body
+    const result = sorter( items, order, orderBy, page, rowsPerPage, filter )
+    res.json(result) 
   } else {
     res.status(500).end()
   }
@@ -22,7 +25,7 @@ itemRouter.get('/:id', async (req, res) => {
 })
 
 
-itemRouter.post('/', async (req, res) => {
+itemRouter.post('/postitem', async (req, res) => {
 	const body = req.body
 
 	if (!!body.title && !!body.body && !!body.userId){

@@ -3,13 +3,13 @@ import axios from 'axios'
 const baseUrl = 'http://localhost:3003/api/items'
 // 'https://jsonplaceholder.typicode.com/posts'
 
-const getAll = async () => {
-  const request = await axios.get(baseUrl)
+const getAll = async (pagination) => {
+  const request = await axios.post(baseUrl, pagination)
   return request.data
 }
 
 const create = async newItem => {
-  const response = await axios.post(baseUrl, newItem)
+  const response = await axios.post(`${baseUrl}/postitem`, newItem)
   return response.data
 }
 
