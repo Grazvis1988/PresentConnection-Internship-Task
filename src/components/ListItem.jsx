@@ -18,7 +18,6 @@ const ListItem = () => {
     (async() => {
       try {
         const data = await listService.getItem(id);
-        console.log('item data', data)
         setItem(data)
       } catch(e) {
         console.log(e.message)
@@ -26,7 +25,7 @@ const ListItem = () => {
     })()
   }, []);
 
-  const width = 600
+  const width = 800
   const height = 400
 
   return (

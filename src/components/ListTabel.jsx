@@ -13,8 +13,10 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import { visuallyHidden } from '@mui/utils';
 import { useNavigate } from "react-router-dom";
+import Input from '@mui/material/Input'
 import Grid from '@mui/material/Grid';
 import listService from '../services/list'
+import Modal from './Modal'
 
 
 function descendingComparator(a, b, orderBy) {
@@ -112,19 +114,30 @@ const EnhancedTable = () => {
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [ rows, setRows ] = React.useState([]);
+  const [ filter, setFilter ] = React.useState('')
+  const [ openModal, setOpenModal ] = React.useState(false)
+
   const navigate = useNavigate();
 
   React.useEffect(() => {
     (async() => {
       try {
         const data = await listService.getAll()
-        console.log('Hey what the fuck is going on...')
         setRows(data)
       } catch(e) {
         console.log(e.message)
       }
     })()
   }, [page])
+
+  const handleModalOpen = () => {
+    setOpenModal(true)
+  }
+
+  const handleModalClose = () => {
+    setOpenModal(false)
+  }
+
   const handleRequestSort = (
     event,
     property,
@@ -156,9 +169,19 @@ const EnhancedTable = () => {
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   return (
-    <Grid container justifyContent="center">
-    <Box sx={{ width: '80%'}}>
-      <Paper sx={{ width: '100%', my: 2 }}>
+    <Grid container justifyContent="center" sx={{ my: 2 }}>
+    <Box sx={{ width: '83%' }}>
+      <Box sx={{ mb: 4, display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+        <Modal open={openModal} handleOpen={handleModalOpen} 
+          handleClose={handleModalClose}
+        />
+        <Input 
+          placeholder="Filter" 
+          value={filter}
+          onChange={(event) => setFilter(event.target.value)}
+        />
+      </Box>
+      <Paper sx={{ width: '100%' }}>
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
