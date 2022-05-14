@@ -1,4 +1,4 @@
-# Present connection internship tas
+# Present connection internship task
 
 ## To Check out app in public Heroku server
 
