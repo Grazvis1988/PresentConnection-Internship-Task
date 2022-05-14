@@ -31,7 +31,7 @@ const ResponsiveAppBar = () => {
           </Box>
           <Box sx={{ flexGrow: 0 }}>
            <Tooltip title="Github">
-             <Link href="https://github.com/Grazvis1988" 
+             <Link href="https://github.com/Grazvis1988/PresentConnection-Internship-Task" 
              underline='hover' target="_blank" rel='noopener' sx={{ p: 0 }}>
                 <Avatar alt="Grazvydas Untulis" src="/myLogo.png" />
               </Link>
