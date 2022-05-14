@@ -18,7 +18,7 @@ import { useFormik } from 'formik';
 const validationSchema = yup.object({
   userId: yup.number().required("User id is required, and should be numerical"),
   title: yup.string().required("Title is required").trim(),
-  body: yup.string().max(2000).trim().required("Write you life story"),
+  body: yup.string().max(2000).trim().required("Write your life story"),
 });
 
 
@@ -45,7 +45,7 @@ const ItemForm = ({ onSubmit, onCancel }) => {
           error={formik.touched.userId && Boolean(formik.errors.userId)}
           helperText={formik.touched.userId && formik.errors.userId}
           variant="standard"
-          sx={{ mb: 2 }}
+          sx={{ my: 2 }}
         />
         <TextField
           label="Title"
