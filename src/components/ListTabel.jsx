@@ -19,38 +19,6 @@ import listService from '../services/list'
 import Modal from './Modal'
 import { useDebounce } from 'use-debounce';
 
-/*
-function descendingComparator(a, b, orderBy) {
-    if (b[orderBy] < a[orderBy]) {
-        return -1;
-    }
-    if (b[orderBy] > a[orderBy]) {
-        return 1;
-    }
-    return 0;
-}
-
-function getComparator(order, orderBy) {
-    return order === 'desc'
-        ? function (a, b) { return descendingComparator(a, b, orderBy); }
-        : function (a, b) { return -descendingComparator(a, b, orderBy); };
-}
-
-// This method is created for cross-browser compatibility, if you don't
-// need to support IE11, you can use Array.prototype.sort() directly
-function stableSort(array, comparator) {
-    var stabilizedThis = array.map(function (el, index) { return [el, index]; });
-    stabilizedThis.sort(function (a, b) {
-        var order = comparator(a[0], b[0]);
-        if (order !== 0) {
-            return order;
-        }
-        return a[1] - b[1];
-    });
-    return stabilizedThis.map(function (el) { return el[0]; });
-}
-*/
-
 var headCells = [
     {
         id: 'userId',

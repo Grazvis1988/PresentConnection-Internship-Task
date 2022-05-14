@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const baseUrl = 'http://localhost:3003/api/items'
+const baseUrl = '/api/items'
 // 'https://jsonplaceholder.typicode.com/posts'
 
 const getAll = async (pagination) => {

@@ -41,7 +41,7 @@ const handleSubmit = async (values) => {
 
   return (
     <div>
-      <Button variant='outlined' onClick={handleOpen}>Add item</Button>
+      <Button variant='contained' color="secondary" onClick={handleOpen}>Add item</Button>
       <Modal
         keepMounted
         open={open}

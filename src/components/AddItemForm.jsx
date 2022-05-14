@@ -98,6 +98,7 @@ const ItemForm = ({ onSubmit, onCancel }) => {
             <Button 
               type="submit"
               variant="contained" 
+              color="secondary"
               endIcon={<SendIcon />}
             >
                 Add
