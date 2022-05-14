@@ -18,7 +18,9 @@ You may also see any lint errors in the console.
 
 ### `npm run dev`
 
-Launches nodemon development server 
+Launches nodemon development server api at:
+
+[http://localhost:3003](http://localhost:3003)
 
 ### `npm run build`
 
